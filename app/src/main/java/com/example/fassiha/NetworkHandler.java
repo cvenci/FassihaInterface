@@ -1,63 +1,35 @@
 package com.example.fassiha;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.view.View;
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class NetworkHandler {
 
-    private TextView showMessageTextView;
-    private TextView showResponseTextView;
-    String url = "http://192.168.1.6:8000/responses/";
-    NetworkHandler networkHandler = new NetworkHandler(this, MainActivity.this);
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        showMessageTextView = (TextView) findViewById(R.id.showMessageTextView);
-        showResponseTextView = (TextView) findViewById(R.id.showResponseTextView);
+    private Context context;
+    private Activity activity;
+    public  NetworkHandler(Context context, Activity activity){
+        this.context = context;
+        this.activity = activity;
     }
 
-    public void getSpeechInput(View view){
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ar-dz");
-
-        if(intent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(intent, 10);
-        }else{
-            Toast.makeText(this, "Your Device does not support speech input",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 10){
-            if(resultCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(
-                        RecognizerIntent.EXTRA_RESULTS);
-                showMessageTextView.setText(result.get(0));
-                for(int i=1;i<=2;i++){
-                    String url1 = url+Integer.toString(i)+"/";
-                    networkHandler.serverDelete(url1);
-                }
-            }
-        }
-    }
-/*
-    protected void serverRequest(String url){
-        RequestQueue queue = Volley.newRequestQueue(this);
+    public void serverRequest(String url){
+        final TextView showResponseTextView = (TextView) activity.findViewById(R.id.showResponseTextView);
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from provided URL
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -71,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jo = jsonArray.getJSONObject(i);
                                 showResponseTextView.setText(jo.getString("core"));
-                            }
+                            }*/
                         } catch (JSONException e) {
                             showResponseTextView.setText(e.toString());
-                        } here end another comment
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -82,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 showResponseTextView.setText(error.getMessage());
             }
         });
-    queue.add(stringRequest);
-    }*/
+        queue.add(stringRequest);
+    }
 
-  /*  protected void serverPut(String url){
+    public void serverPost(String url){
         try {
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
             //String URL = "http://...";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("core", "my command");
@@ -129,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-   /* protected void serverDelete(String url){
-        RequestQueue queue = Volley.newRequestQueue(this);
+    public void serverDelete(String url){
+        RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
@@ -147,5 +119,5 @@ public class MainActivity extends AppCompatActivity {
         });
         queue.add(stringRequest);
     }
-*/
+
 }
