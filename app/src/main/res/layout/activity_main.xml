@@ -5,19 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
+    android:backgroundTint="#00BCD4"
     tools:context=".MainActivity">
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:onClick="getSpeechInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showResponseTextView"
-        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <TextView
         android:id="@+id/showMessageTextView"
@@ -26,6 +15,7 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
         android:text="مرحبا كيف يمكنني المساعدة؟"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Request"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/showMessageTextView"
         app:layout_constraintStart_toStartOf="@+id/showMessageTextView"
         app:layout_constraintTop_toBottomOf="@+id/showMessageTextView" />
@@ -46,11 +37,25 @@
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:clickable="true"
+        android:onClick="getSpeechInput"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
-        app:layout_constraintVertical_bias="0.538"
+        app:layout_constraintTop_toBottomOf="@+id/showResponseTextView"
         app:srcCompat="@drawable/ic_logo_fassiha" />
+
+    <Button
+        android:id="@+id/buttonRegisterMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:hint="تسجيل الدخول"
+        android:textStyle="bold"
+        android:onClick="startRegistration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

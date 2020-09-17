@@ -16,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView showMessageTextView;
     private TextView showResponseTextView;
-    String url = "http://192.168.1.6:8000/responses/";
+    String postUrl = "http://192.168.1.4:8000/commands/";
+    String requestUrl = "http:/192.168.1.4:8000/responses/1/";
     NetworkHandler networkHandler = new NetworkHandler(this, MainActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,107 +47,33 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 10){
             if(resultCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(
+                final ArrayList<String> result = data.getStringArrayListExtra(
                         RecognizerIntent.EXTRA_RESULTS);
+
                 showMessageTextView.setText(result.get(0));
-                for(int i=1;i<=2;i++){
-                    String url1 = url+Integer.toString(i)+"/";
-                    networkHandler.serverDelete(url1);
-                }
+
+                networkHandler.serverPost(postUrl, result.get(0));
+                try {
+                    Thread.sleep(2000);
+                }catch (InterruptedException e){e.printStackTrace();}
+                networkHandler.serverRequest(requestUrl);
+                //networkHandler.serverDelete(requestUrl);
+
+                // Use code bellow to delete responses
+                /*String url;
+                for(int i=4;i<=7;i++){
+                    url = "http:/192.168.1.6:8000/responses/";
+                    url = url+Integer.toString(i)+"/";
+                    networkHandler.serverDelete(url);
+                }*/
             }
         }
     }
-/*
-    protected void serverRequest(String url){
-        RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Request a string response from provided URL
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jso= new JSONObject(response);
-                            showResponseTextView.setText(jso.getString("core") +" "+ jso.getString("id"));
-                            /*JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jo = jsonArray.getJSONObject(i);
-                                showResponseTextView.setText(jo.getString("core"));
-                            }
-                        } catch (JSONException e) {
-                            showResponseTextView.setText(e.toString());
-                        } here end another comment
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showResponseTextView.setText(error.getMessage());
-            }
-        });
-    queue.add(stringRequest);
-    }*/
-
-  /*  protected void serverPut(String url){
-        try {
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            //String URL = "http://...";
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("core", "my command");
-            final String requestBody = jsonBody.toString();
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("VOLLEY", response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
-
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    return requestBody.getBytes();
-                }
-
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-                        responseString = String.valueOf(response.statusCode);
-                        // can get more details such as response.headers
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
-            };
-
-            requestQueue.add(stringRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-   /* protected void serverDelete(String url){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("VolleyDelete", response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyDelete", error.toString());
-            }
-        });
-        queue.add(stringRequest);
+    public void startRegistration(View view){
+        Intent intent = new Intent(this, RegistrationActivity.class);
+        startActivity(intent);
     }
-*/
+
+
 }

@@ -22,12 +22,14 @@ public class NetworkHandler {
 
     private Context context;
     private Activity activity;
+
     public  NetworkHandler(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
     }
 
     public void serverRequest(String url){
+
         final TextView showResponseTextView = (TextView) activity.findViewById(R.id.showResponseTextView);
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -54,15 +56,19 @@ public class NetworkHandler {
                 showResponseTextView.setText(error.getMessage());
             }
         });
-        queue.add(stringRequest);
+
+                queue.add(stringRequest);
+
     }
 
-    public void serverPost(String url){
+    public void serverPost(String url, String command){
+
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             //String URL = "http://...";
             JSONObject jsonBody = new JSONObject();
-            jsonBody.put("core", "my command");
+            jsonBody.put("id","1");
+            jsonBody.put("core", command);
             final String requestBody = jsonBody.toString();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -96,8 +102,8 @@ public class NetworkHandler {
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
                 }
             };
+                requestQueue.add(stringRequest);
 
-            requestQueue.add(stringRequest);
         } catch (JSONException e) {
             e.printStackTrace();
         }
