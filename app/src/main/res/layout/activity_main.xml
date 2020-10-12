@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:backgroundTint="#00BCD4"
+    android:backgroundTint="@android:color/darker_gray"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,8 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_edit_text"
         android:fontFamily="sans-serif"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:text="مرحبا كيف يمكنني المساعدة؟"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,14 +31,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Request"
+        android:background="@drawable/rounded_edit_text"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="الطلب"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/showMessageTextView"
         app:layout_constraintStart_toStartOf="@+id/showMessageTextView"
         app:layout_constraintTop_toBottomOf="@+id/showMessageTextView" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/lunchRecordImageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:clickable="true"
@@ -47,15 +55,17 @@
         app:srcCompat="@drawable/ic_logo_fassiha" />
 
     <Button
-        android:id="@+id/buttonRegisterMain"
+        android:id="@+id/buttonLogOutMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
-        android:hint="تسجيل الدخول"
+        android:onClick="disconnect"
+        android:text="تسجيل الخروج"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="#FF5722"
         android:textStyle="bold"
-        android:onClick="startRegistration"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/lunchRecordImageView"
+        app:layout_constraintStart_toStartOf="@+id/lunchRecordImageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

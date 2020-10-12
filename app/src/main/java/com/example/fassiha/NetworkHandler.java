@@ -32,7 +32,7 @@ public class NetworkHandler {
 
         final TextView showResponseTextView = (TextView) activity.findViewById(R.id.showResponseTextView);
         RequestQueue queue = Volley.newRequestQueue(context);
-
+        FassihaResponse fassihaResponse = null;
         // Request a string response from provided URL
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -40,7 +40,15 @@ public class NetworkHandler {
                     public void onResponse(String response) {
                         try {
                             JSONObject jso= new JSONObject(response);
-                            showResponseTextView.setText(jso.getString("core") +" "+ jso.getString("id"));
+                            int level = Integer.parseInt(jso.getString("level"));
+                            int app_id = Integer.parseInt(jso.getString("app_id"));
+                            String core = jso.getString("core");
+                            String args = jso.getString("args");
+                            FassihaResponse fassihaResponse = new FassihaResponse(level, app_id, core, args);
+
+                                showResponseTextView.setText(fassihaResponse.core);
+                                Log.e("Ready", "Ready");
+
                             /*JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jo = jsonArray.getJSONObject(i);
@@ -48,6 +56,7 @@ public class NetworkHandler {
                             }*/
                         } catch (JSONException e) {
                             showResponseTextView.setText(e.toString());
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -57,8 +66,11 @@ public class NetworkHandler {
             }
         });
 
-                queue.add(stringRequest);
-
+        queue.add(stringRequest);
+        Log.e("TTS", "Notify");
+        /*synchronized (MainActivity.syncObj){
+            MainActivity.syncObj.notify();
+        }*/
     }
 
     public void serverPost(String url, String command){
@@ -125,5 +137,6 @@ public class NetworkHandler {
         });
         queue.add(stringRequest);
     }
+
 
 }

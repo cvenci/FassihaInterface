@@ -3,6 +3,10 @@ package com.example.fassiha;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,13 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView showMessageTextView;
     private TextView showResponseTextView;
-    String postUrl = "http://192.168.1.4:8000/commands/";
-    String requestUrl = "http:/192.168.1.4:8000/responses/1/";
+
+    private TextToSpeech mTTS;
+    String text = "";
+
+    String postUrl = "http://192.168.1.7:8000/commands/";
+    String requestUrl = "http:/192.168.1.7:8000/responses/1/";
     NetworkHandler networkHandler = new NetworkHandler(this, MainActivity.this);
 
     @Override
@@ -26,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         showMessageTextView = (TextView) findViewById(R.id.showMessageTextView);
         showResponseTextView = (TextView) findViewById(R.id.showResponseTextView);
+        showResponseTextView.addTextChangedListener(textWatcher);
+
+        mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS){
+                    int result = mTTS.setLanguage(Locale.forLanguageTag("ar"));
+
+                    if(result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.e("TTS", "Language not supported");
+                    }
+                }else {
+                    Log.e("TTS", "Initialization failed");
+                }
+                Log.e("TTS", "INIT");
+            }
+        });
     }
 
     public void getSpeechInput(View view){
@@ -56,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(2000);
                 }catch (InterruptedException e){e.printStackTrace();}
+
                 networkHandler.serverRequest(requestUrl);
+
                 //networkHandler.serverDelete(requestUrl);
 
                 // Use code bellow to delete responses
@@ -70,10 +99,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startRegistration(View view){
+    public void speak(String text){
+
+        text= showResponseTextView.getText().toString();
+        Log.e("TTS", text);
+
+        mTTS.setPitch((float)1);
+        mTTS.setSpeechRate((float)1);
+
+        mTTS.speak(text, TextToSpeech.QUEUE_ADD, null);
+        Log.e("TTS", "DONE !!");
+    }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            text = s.toString();
+            speak(text);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    public void disconnect(View view){
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
     }
-
-
 }

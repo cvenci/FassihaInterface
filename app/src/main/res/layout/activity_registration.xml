@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00BCD4">
+    android:background="@android:color/darker_gray">
 
     <EditText
         android:id="@+id/usernameEditTextRegister"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:hint="اسم المستخدم"
-        android:paddingLeft="16dp"
-        android:textStyle="bold"
         android:inputType="textPersonName"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="#E91E63"
+        android:textColorHint="@color/colorPrimary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/micUserName"
+        app:layout_constraintTop_toBottomOf="@+id/uploadProfilPicButton" />
 
     <EditText
         android:id="@+id/emailEditTextRegister"
@@ -32,10 +40,13 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:hint="البريد الالكتروني"
-        android:textStyle="bold"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
         android:inputType="textEmailAddress"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="#673AB7"
+        android:textColorHint="@color/colorPrimary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/usernameEditTextRegister"
         app:layout_constraintStart_toStartOf="@+id/usernameEditTextRegister"
         app:layout_constraintTop_toBottomOf="@+id/usernameEditTextRegister" />
@@ -48,46 +59,155 @@
         android:background="@drawable/rounded_edit_text"
         android:ems="10"
         android:hint="كلمة السر"
-        android:textStyle="bold"
-        android:paddingLeft="216dp"
         android:inputType="textPassword"
+        android:paddingLeft="200dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="#E91E63"
+        android:textColorHint="@color/colorPrimary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/emailEditTextRegister"
         app:layout_constraintStart_toStartOf="@+id/emailEditTextRegister"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextRegister" />
 
-    <Button
-        android:id="@+id/registerButtonRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_button"
-        android:text="تسجيل"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/passwordEditTextRegister"
-        app:layout_constraintStart_toStartOf="@+id/passwordEditTextRegister"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextRegister" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="لديك حساب؟"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/registerButtonRegister"
-        app:layout_constraintStart_toStartOf="@+id/registerButtonRegister"
-        app:layout_constraintTop_toBottomOf="@+id/registerButtonRegister" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/uploadProfilPicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circular_button"
         android:text="صورة"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/logoImageViewRegister" />
+
+    <ImageView
+        android:id="@+id/logoImageViewRegister"
+        android:layout_width="60dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo_fassiha" />
+
+    <Button
+        android:id="@+id/buttonLogInRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="logIn"
+        android:text="تسجيل الدخول"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditTextRegister"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSaveMyInfo"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonCreateAccountRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="register"
+        android:text="انشاء حساب"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/buttonLogInRegister"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="109dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditTextRegister"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextRegister">
+
+        <RadioButton
+            android:id="@+id/radioButtonFemininFassiha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="فصيحة"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMasculinFassiha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="فصيح"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/checkBoxSaveMyInfo"
+        android:layout_width="109dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="حفظ معلوماتي"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCreateAccountRegister"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <ImageButton
+        android:id="@+id/micUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_button"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/usernameEditTextRegister"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageButton
+        android:id="@+id/micEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_button"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/emailEditTextRegister"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/micUserName"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageButton
+        android:id="@+id/micPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_button"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/passwordEditTextRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/micEmail"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
