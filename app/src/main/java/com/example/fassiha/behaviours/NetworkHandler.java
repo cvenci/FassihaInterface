@@ -1,4 +1,4 @@
-package com.example.fassiha;
+package com.example.fassiha.behaviours;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.fassiha.R;
+import com.example.fassiha.dataclass.FassihaResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +32,11 @@ public class NetworkHandler {
 
     public void serverRequest(String url){
 
-        final TextView showResponseTextView = (TextView) activity.findViewById(R.id.showResponseTextView);
+        final TextView showResponseTextView = (TextView) activity.findViewById(
+                R.id.showResponseTextView);
+
         RequestQueue queue = Volley.newRequestQueue(context);
-        FassihaResponse fassihaResponse = null;
+        final AppsHandler appsHandler = new AppsHandler(context, activity);
         // Request a string response from provided URL
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -44,16 +48,22 @@ public class NetworkHandler {
                             int app_id = Integer.parseInt(jso.getString("app_id"));
                             String core = jso.getString("core");
                             String args = jso.getString("args");
-                            FassihaResponse fassihaResponse = new FassihaResponse(level, app_id, core, args);
-
+                            String command = jso.getString("command");
+                            FassihaResponse fassihaResponse = new FassihaResponse(level, app_id,
+                                    core, args, command);
+                            if (level != 2){
                                 showResponseTextView.setText(fassihaResponse.core);
-                                Log.e("Ready", "Ready");
+                                appsHandler.openApp(fassihaResponse.app_id);
+                            }else{
+                                if(fassihaResponse.core.length()<30) {
+                                    showResponseTextView.setText(fassihaResponse.core);
+                                    //appsHandler.googleSearch(fassihaResponse.command);
+                                }else{
+                                    showResponseTextView.setText("جاري البحث");
+                                    appsHandler.googleSearch(fassihaResponse.command);
+                                }
+                                }
 
-                            /*JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jo = jsonArray.getJSONObject(i);
-                                showResponseTextView.setText(jo.getString("core"));
-                            }*/
                         } catch (JSONException e) {
                             showResponseTextView.setText(e.toString());
 
@@ -67,13 +77,9 @@ public class NetworkHandler {
         });
 
         queue.add(stringRequest);
-        Log.e("TTS", "Notify");
-        /*synchronized (MainActivity.syncObj){
-            MainActivity.syncObj.notify();
-        }*/
     }
 
-    public void serverPost(String url, String command){
+        public void serverPost(String url, String command){
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -137,6 +143,5 @@ public class NetworkHandler {
         });
         queue.add(stringRequest);
     }
-
 
 }

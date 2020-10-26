@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fassiha.behaviours.NetworkHandler;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -25,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech mTTS;
     String text = "";
 
-    String postUrl = "http://192.168.1.7:8000/commands/";
-    String requestUrl = "http:/192.168.1.7:8000/responses/1/";
+    String postUrl = "http://192.168.1.3:8000/commands/";
+    String requestUrl = "http:/192.168.1.3:8000/responses/1/";
     NetworkHandler networkHandler = new NetworkHandler(this, MainActivity.this);
 
     @Override
